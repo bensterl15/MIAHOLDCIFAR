@@ -1,0 +1,21 @@
+torch==1.8.1+cu111
+torchvision==0.9.1+cu111
+tensorflow-gan==2.0.0
+tensorflow_io
+tensorflow_datasets==4.3.0
+tensorflow==2.8.0
+tensorflow-addons==0.13.0
+tensorboard==2.8.0
+protobuf==3.19.6
+tensorflow-probability==0.16.0   # <--- ADD/MODIFY THIS LINE
+typing-extensions==4.7.1
+ninja
+h5py
+configargparse
+lmdb
+torchdiffeq
+tfrecord
+matplotlib
+scikit-learn
+wandb<0.15
+pydantic<2.0

@@ -1,0 +1,250 @@
+2024-08-21 01:57:41.553690: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.10.1
+WARNING:tensorflow:From /home/ben/miniconda3/envs/HOLD/lib/python3.8/site-packages/tensorflow_gan/python/estimator/tpu_gan_estimator.py:42: The name tf.estimator.tpu.TPUEstimator is deprecated. Please use tf.compat.v1.estimator.tpu.TPUEstimator instead.
+
+WARNING:tensorflow:From /home/ben/miniconda3/envs/HOLD/lib/python3.8/site-packages/tensorflow_gan/python/estimator/tpu_gan_estimator.py:42: The name tf.estimator.tpu.TPUEstimator is deprecated. Please use tf.compat.v1.estimator.tpu.TPUEstimator instead.
+
+INFO:root:Namespace(attention_type='ddpm', attn_resolutions='16', autocast_eval=True, autocast_train=True, beta0=4.0, beta1=0.0, beta_type='linear', cc='configs/default_cifar10.txt', center_image=True, ch_mult='1,2,2,2', checkpoint=None, ckpt_file=None, cld_objective='hsm', cont_nbr=None, conv_size=3, data_dim=None, data_location=None, dataset='cifar10', denoising=True, device=device(type='cuda', index=0), distributed=True, dropout=0.1, ema_rate=0.9999, embedding_type='fourier', eval_density=False, eval_density_npts=101, eval_fid=False, eval_fid_samples=50000, eval_folder=None, eval_freq=20000, eval_hist_samples=100000, eval_iw_likelihood=False, eval_jacobian_norm=False, eval_likelihood=False, eval_loss=False, eval_loss_variance=False, eval_loss_variance_images=1, eval_sample=False, eval_sample_hist=False, eval_sample_samples=1, eval_seed=0, eval_threshold=1, fid_freq=50000, fid_samples_training=20000, fid_threshold=100000, fir_kernel='1,3,3,1', fourier_scale=16, gamma=0.04, global_rank=0, global_size=1, grad_clip=1.0, image_channels=3, image_size=32, init_scale=0.0, is_image=True, learning_rate=0.0002, likelihood_atol=1e-05, likelihood_eps=1e-05, likelihood_freq=50000, likelihood_hutchinson_type='rademacher', likelihood_rtol=1e-05, likelihood_solver='scipy_solver', likelihood_solver_options={'solver': 'RK45'}, likelihood_threshold=2000000, local_rank=0, log_freq=1, loss_eps=1e-05, m_inv=4.0, master_address='127.0.0.1', master_port=6026, mixed_score=True, mode='train', n_channels=128, n_discrete_steps=None, n_eval_batches=1, n_gpus_per_node=1, n_likelihood_batches=1, n_nodes=1, n_resblocks=8, n_train_iters=800000, n_warmup_iters=100000, name='ncsnpp', node_rank=0, nonlinearity='swish', normalization='GroupNorm', numerical_eps=1e-09, optimizer='Adam', overwrite=False, progressive='none', progressive_combine='sum', progressive_input='residual', resamp_with_conv=True, resblock_type='biggan', root='.', sampling_atol=1e-05, sampling_batch_size=64, sampling_eps=0.001, sampling_method='ode', sampling_rtol=1e-05, sampling_solver='scipy_solver', sampling_solver_options={'solver': 'RK45'}, save_freq=50000, save_threshold=300000, sc='configs/specific_cifar10.txt', sde='cld', seed=0, skip_rescale=True, snapshot_freq=100, snapshot_threshold=1, sscs_num_stab=0.0, striding='linear', testing_batch_size=64, training_batch_size=64, use_fir=True, weight_decay=0.0, weighting='reweightedv2', workdir='work_dir/cifar10')
+[W ProcessGroupNCCL.cpp:1569] Rank 0 using best-guess GPU 0 to perform barrier as devices used by this process are currently unknown. This can potentially cause a hang if this rank to GPU mapping is incorrect.Specify device_ids in barrier() to force use of a particular device.
+INFO:root:Number of trainable parameters in model: 107593859
+INFO:root:Number of total iterations: 800000
+INFO:absl:Using /tmp/tfhub_modules to cache modules.
+2024-08-21 01:57:47.878640: I tensorflow/compiler/jit/xla_cpu_device.cc:41] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2024-08-21 01:57:47.878758: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcuda.so.1
+2024-08-21 01:57:47.878907: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-08-21 01:57:47.889294: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1720] Found device 0 with properties: 
+pciBusID: 0000:10:00.0 name: Tesla P100-PCIE-16GB computeCapability: 6.0
+coreClock: 1.3285GHz coreCount: 56 deviceMemorySize: 15.90GiB deviceMemoryBandwidth: 681.88GiB/s
+2024-08-21 01:57:47.889337: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.10.1
+2024-08-21 01:57:47.890551: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.10
+2024-08-21 01:57:47.890586: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublasLt.so.10
+2024-08-21 01:57:47.891745: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2024-08-21 01:57:47.891959: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2024-08-21 01:57:47.893037: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.10
+2024-08-21 01:57:47.893464: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.10
+2024-08-21 01:57:47.895593: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.7
+2024-08-21 01:57:47.895703: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-08-21 01:57:47.896488: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-08-21 01:57:47.897187: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1862] Adding visible gpu devices: 0
+2024-08-21 01:57:47.897405: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  SSE4.1 SSE4.2 AVX AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-08-21 01:57:47.898028: I tensorflow/compiler/jit/xla_gpu_device.cc:99] Not creating XLA devices, tf_xla_enable_xla_devices not set
+2024-08-21 01:57:47.898124: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-08-21 01:57:47.898742: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1720] Found device 0 with properties: 
+pciBusID: 0000:10:00.0 name: Tesla P100-PCIE-16GB computeCapability: 6.0
+coreClock: 1.3285GHz coreCount: 56 deviceMemorySize: 15.90GiB deviceMemoryBandwidth: 681.88GiB/s
+2024-08-21 01:57:47.898759: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.10.1
+2024-08-21 01:57:47.898774: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublas.so.10
+2024-08-21 01:57:47.898787: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcublasLt.so.10
+2024-08-21 01:57:47.898797: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcufft.so.10
+2024-08-21 01:57:47.898807: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcurand.so.10
+2024-08-21 01:57:47.898818: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusolver.so.10
+2024-08-21 01:57:47.898828: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcusparse.so.10
+2024-08-21 01:57:47.898837: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudnn.so.7
+2024-08-21 01:57:47.898898: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-08-21 01:57:47.899553: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-08-21 01:57:47.900150: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1862] Adding visible gpu devices: 0
+2024-08-21 01:57:47.900176: I tensorflow/stream_executor/platform/default/dso_loader.cc:49] Successfully opened dynamic library libcudart.so.10.1
+2024-08-21 01:57:48.117626: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1261] Device interconnect StreamExecutor with strength 1 edge matrix:
+2024-08-21 01:57:48.117666: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1267]      0 
+2024-08-21 01:57:48.117677: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1280] 0:   N 
+2024-08-21 01:57:48.117860: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-08-21 01:57:48.118547: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-08-21 01:57:48.119224: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:941] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2024-08-21 01:57:48.119849: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1406] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 13052 MB memory) -> physical GPU (device: 0, name: Tesla P100-PCIE-16GB, pci bus id: 0000:10:00.0, compute capability: 6.0)
+INFO:root:Starting training at step 0
+/home/ben/Desktop/HOLD_given2/util/utils.py:52: FutureWarning: Non-finite norm encountered in torch.nn.utils.clip_grad_norm_; continuing anyway. Note that the default behavior will change in a future release to error out if a non-finite total norm is encountered. At that point, setting error_if_nonfinite=false will be required to retain the old behavior.
+  torch.nn.utils.clip_grad_norm_(params, max_norm=grad_clip)
+INFO:root:Iter 1/800000 Loss: 219.7679 Time: 2.722
+INFO:root:Reducer buckets have been rebuilt in this iteration.
+INFO:root:Iter 2/800000 Loss: 284.4374 Time: 0.944
+INFO:root:Iter 3/800000 Loss: 249.2951 Time: 0.918
+INFO:root:Iter 4/800000 Loss: 175.1700 Time: 0.918
+INFO:root:Iter 5/800000 Loss: 172.4972 Time: 0.918
+INFO:root:Iter 6/800000 Loss: 184.0349 Time: 0.918
+INFO:root:Iter 7/800000 Loss: 275.6812 Time: 0.967
+INFO:root:Iter 8/800000 Loss: 235.3622 Time: 0.962
+INFO:root:Iter 9/800000 Loss: 283.6748 Time: 0.923
+INFO:root:Iter 10/800000 Loss: 356.3437 Time: 0.955
+INFO:root:Iter 11/800000 Loss: 399.0820 Time: 0.958
+INFO:root:Iter 12/800000 Loss: 189.0383 Time: 0.956
+INFO:root:Iter 13/800000 Loss: 331.7255 Time: 0.955
+INFO:root:Iter 14/800000 Loss: 397.9931 Time: 0.957
+INFO:root:Iter 15/800000 Loss: 297.4346 Time: 0.957
+INFO:root:Iter 16/800000 Loss: 385.0510 Time: 0.957
+INFO:root:Iter 17/800000 Loss: 268.5467 Time: 0.959
+INFO:root:Iter 18/800000 Loss: 286.4805 Time: 0.957
+INFO:root:Iter 19/800000 Loss: 306.8889 Time: 0.959
+INFO:root:Iter 20/800000 Loss: 399.0212 Time: 0.955
+INFO:root:Iter 21/800000 Loss: 121.9551 Time: 0.958
+INFO:root:Iter 22/800000 Loss: 233.1452 Time: 0.955
+INFO:root:Iter 23/800000 Loss: 402.3607 Time: 0.955
+INFO:root:Iter 24/800000 Loss: 329.9323 Time: 0.957
+INFO:root:Iter 25/800000 Loss: 246.2766 Time: 0.955
+INFO:root:Iter 26/800000 Loss: 216.7828 Time: 0.962
+INFO:root:Iter 27/800000 Loss: 223.2854 Time: 0.955
+INFO:root:Iter 28/800000 Loss: 358.4368 Time: 0.956
+INFO:root:Iter 29/800000 Loss: 226.4928 Time: 0.958
+INFO:root:Iter 30/800000 Loss: 177.6737 Time: 0.956
+INFO:root:Iter 31/800000 Loss: 275.0049 Time: 0.960
+INFO:root:Iter 32/800000 Loss: 225.0238 Time: 0.969
+INFO:root:Iter 33/800000 Loss: 305.4832 Time: 0.960
+INFO:root:Iter 34/800000 Loss: 251.0261 Time: 0.955
+INFO:root:Iter 35/800000 Loss: 409.1761 Time: 0.958
+INFO:root:Iter 36/800000 Loss: 290.6857 Time: 0.958
+INFO:root:Iter 37/800000 Loss: 108.3003 Time: 0.959
+INFO:root:Iter 38/800000 Loss: 307.1422 Time: 0.964
+INFO:root:Iter 39/800000 Loss: 315.6390 Time: 0.955
+INFO:root:Iter 40/800000 Loss: 187.0461 Time: 0.957
+INFO:root:Iter 41/800000 Loss: 230.3670 Time: 0.958
+INFO:root:Iter 42/800000 Loss: 384.2160 Time: 0.956
+INFO:root:Iter 43/800000 Loss: 229.0268 Time: 0.970
+INFO:root:Iter 44/800000 Loss: 435.4319 Time: 0.956
+INFO:root:Iter 45/800000 Loss: 249.6960 Time: 0.956
+INFO:root:Iter 46/800000 Loss: 271.8059 Time: 0.957
+INFO:root:Iter 47/800000 Loss: 281.9742 Time: 0.956
+INFO:root:Iter 48/800000 Loss: 183.6021 Time: 0.955
+INFO:root:Iter 49/800000 Loss: 405.4209 Time: 0.961
+INFO:root:Iter 50/800000 Loss: 235.9406 Time: 0.957
+INFO:root:Iter 51/800000 Loss: 346.6191 Time: 0.957
+INFO:root:Iter 52/800000 Loss: 341.4840 Time: 0.957
+INFO:root:Iter 53/800000 Loss: 331.4706 Time: 0.958
+INFO:root:Iter 54/800000 Loss: 343.8465 Time: 0.955
+INFO:root:Iter 55/800000 Loss: 408.8647 Time: 0.956
+INFO:root:Iter 56/800000 Loss: 253.4019 Time: 0.957
+INFO:root:Iter 57/800000 Loss: 236.2446 Time: 0.957
+INFO:root:Iter 58/800000 Loss: 261.5544 Time: 0.959
+INFO:root:Iter 59/800000 Loss: 342.5780 Time: 0.956
+INFO:root:Iter 60/800000 Loss: 260.5062 Time: 0.956
+INFO:root:Iter 61/800000 Loss: 216.7237 Time: 0.959
+INFO:root:Iter 62/800000 Loss: 213.5159 Time: 0.959
+INFO:root:Iter 63/800000 Loss: 249.4753 Time: 0.957
+INFO:root:Iter 64/800000 Loss: 212.6897 Time: 0.957
+INFO:root:Iter 65/800000 Loss: 389.9250 Time: 0.957
+INFO:root:Iter 66/800000 Loss: 288.3743 Time: 0.956
+INFO:root:Iter 67/800000 Loss: 303.6666 Time: 0.957
+INFO:root:Iter 68/800000 Loss: 232.8978 Time: 0.957
+INFO:root:Iter 69/800000 Loss: 296.1177 Time: 0.957
+INFO:root:Iter 70/800000 Loss: 318.5243 Time: 0.957
+INFO:root:Iter 71/800000 Loss: 296.2753 Time: 0.957
+INFO:root:Iter 72/800000 Loss: 192.3397 Time: 0.958
+INFO:root:Iter 73/800000 Loss: 148.7151 Time: 0.956
+INFO:root:Iter 74/800000 Loss: 250.5754 Time: 0.957
+INFO:root:Iter 75/800000 Loss: 328.9893 Time: 0.954
+INFO:root:Iter 76/800000 Loss: 233.3872 Time: 0.955
+INFO:root:Iter 77/800000 Loss: 333.0184 Time: 0.956
+INFO:root:Iter 78/800000 Loss: 261.1014 Time: 0.955
+INFO:root:Iter 79/800000 Loss: 349.3323 Time: 0.961
+INFO:root:Iter 80/800000 Loss: 245.4932 Time: 0.956
+INFO:root:Iter 81/800000 Loss: 220.5624 Time: 0.955
+INFO:root:Iter 82/800000 Loss: 198.5757 Time: 0.956
+INFO:root:Iter 83/800000 Loss: 269.8457 Time: 0.956
+INFO:root:Iter 84/800000 Loss: 232.6421 Time: 0.958
+INFO:root:Iter 85/800000 Loss: 382.0352 Time: 0.958
+INFO:root:Iter 86/800000 Loss: 140.4026 Time: 0.957
+INFO:root:Iter 87/800000 Loss: 269.3791 Time: 0.959
+INFO:root:Iter 88/800000 Loss: 191.6610 Time: 0.959
+INFO:root:Iter 89/800000 Loss: 309.2432 Time: 0.958
+INFO:root:Iter 90/800000 Loss: 310.2057 Time: 0.955
+INFO:root:Iter 91/800000 Loss: 326.5251 Time: 0.955
+INFO:root:Iter 92/800000 Loss: 212.4782 Time: 0.956
+INFO:root:Iter 93/800000 Loss: 270.1127 Time: 0.956
+INFO:root:Iter 94/800000 Loss: 323.2367 Time: 0.960
+INFO:root:Iter 95/800000 Loss: 260.1840 Time: 0.961
+INFO:root:Iter 96/800000 Loss: 280.7224 Time: 0.954
+INFO:root:Iter 97/800000 Loss: 255.8772 Time: 0.956
+INFO:root:Iter 98/800000 Loss: 359.3113 Time: 0.956
+INFO:root:Iter 99/800000 Loss: 108.8133 Time: 0.956
+INFO:root:Iter 100/800000 Loss: 217.7420 Time: 0.958
+INFO:root:Saving snapshot checkpoint.
+INFO:root:Storing current parameters for restoring later.
+INFO:root:Copying EMA parameters to model.
+/home/ben/miniconda3/envs/HOLD/lib/python3.8/site-packages/scipy/integrate/_ivp/common.py:39: UserWarning: The following arguments have no effect for a chosen solver: `min_step`.
+  warn("The following arguments have no effect for a chosen solver: {}."
+INFO:root:Restoring model parameters.
+INFO:root:NFE for snapshot at step 100: 177
+INFO:root:Iter 101/800000 Loss: 285.1046 Time: 0.961
+INFO:root:Iter 102/800000 Loss: 253.1110 Time: 0.955
+INFO:root:Iter 103/800000 Loss: 199.1141 Time: 0.956
+INFO:root:Iter 104/800000 Loss: 235.8716 Time: 0.955
+INFO:root:Iter 105/800000 Loss: 522.1315 Time: 0.956
+INFO:root:Iter 106/800000 Loss: 286.3132 Time: 0.955
+INFO:root:Iter 107/800000 Loss: 313.9243 Time: 0.956
+INFO:root:Iter 108/800000 Loss: 285.3702 Time: 0.960
+INFO:root:Iter 109/800000 Loss: 212.4884 Time: 0.956
+INFO:root:Iter 110/800000 Loss: 171.6131 Time: 0.957
+INFO:root:Iter 111/800000 Loss: 371.2992 Time: 0.957
+INFO:root:Iter 112/800000 Loss: 241.5395 Time: 0.957
+INFO:root:Iter 113/800000 Loss: 293.2479 Time: 0.957
+INFO:root:Iter 114/800000 Loss: 233.4669 Time: 0.957
+INFO:root:Iter 115/800000 Loss: 242.8760 Time: 0.959
+INFO:root:Iter 116/800000 Loss: 182.5147 Time: 0.956
+INFO:root:Iter 117/800000 Loss: 273.9648 Time: 0.957
+INFO:root:Iter 118/800000 Loss: 234.2659 Time: 0.956
+INFO:root:Iter 119/800000 Loss: 166.9147 Time: 0.955
+INFO:root:Iter 120/800000 Loss: 279.2994 Time: 0.959
+INFO:root:Iter 121/800000 Loss: 283.2052 Time: 0.955
+INFO:root:Iter 122/800000 Loss: 145.9737 Time: 0.957
+INFO:root:Iter 123/800000 Loss: 236.9088 Time: 0.959
+INFO:root:Iter 124/800000 Loss: 277.8009 Time: 0.958
+INFO:root:Iter 125/800000 Loss: 117.8658 Time: 0.956
+INFO:root:Iter 126/800000 Loss: 204.2044 Time: 0.959
+INFO:root:Iter 127/800000 Loss: 272.4901 Time: 0.955
+INFO:root:Iter 128/800000 Loss: 335.0715 Time: 0.955
+INFO:root:Iter 129/800000 Loss: 288.9882 Time: 0.955
+INFO:root:Iter 130/800000 Loss: 215.3318 Time: 0.957
+INFO:root:Iter 131/800000 Loss: 197.3782 Time: 0.956
+INFO:root:Iter 132/800000 Loss: 263.1664 Time: 0.958
+INFO:root:Iter 133/800000 Loss: 278.6767 Time: 0.957
+INFO:root:Iter 134/800000 Loss: 193.5096 Time: 0.957
+INFO:root:Iter 135/800000 Loss: 269.4421 Time: 0.958
+INFO:root:Iter 136/800000 Loss: 336.2665 Time: 0.956
+INFO:root:Iter 137/800000 Loss: 238.2704 Time: 0.956
+INFO:root:Iter 138/800000 Loss: 329.9595 Time: 0.958
+INFO:root:Iter 139/800000 Loss: 331.7116 Time: 0.957
+INFO:root:Iter 140/800000 Loss: 289.5667 Time: 0.956
+INFO:root:Iter 141/800000 Loss: 188.3477 Time: 0.955
+INFO:root:Iter 142/800000 Loss: 254.0972 Time: 0.961
+INFO:root:Iter 143/800000 Loss: 229.4456 Time: 0.957
+INFO:root:Iter 144/800000 Loss: 251.9778 Time: 0.960
+INFO:root:Iter 145/800000 Loss: 332.0093 Time: 0.954
+INFO:root:Iter 146/800000 Loss: 215.6865 Time: 0.962
+INFO:root:Iter 147/800000 Loss: 208.1429 Time: 0.956
+INFO:root:Iter 148/800000 Loss: 283.1395 Time: 0.955
+INFO:root:Iter 149/800000 Loss: 134.8519 Time: 0.958
+INFO:root:Iter 150/800000 Loss: 315.7145 Time: 0.960
+INFO:root:Iter 151/800000 Loss: 253.6810 Time: 0.954
+INFO:root:Iter 152/800000 Loss: 230.1934 Time: 0.954
+INFO:root:Iter 153/800000 Loss: 363.2393 Time: 0.955
+INFO:root:Iter 154/800000 Loss: 180.7957 Time: 0.960
+INFO:root:Iter 155/800000 Loss: 293.0048 Time: 0.955
+INFO:root:Iter 156/800000 Loss: 126.2207 Time: 0.956
+INFO:root:Iter 157/800000 Loss: 351.5620 Time: 0.955
+INFO:root:Iter 158/800000 Loss: 235.4717 Time: 0.960
+INFO:root:Iter 159/800000 Loss: 202.4752 Time: 0.960
+INFO:root:Iter 160/800000 Loss: 233.9071 Time: 0.960
+INFO:root:Iter 161/800000 Loss: 278.6928 Time: 0.956
+INFO:root:Iter 162/800000 Loss: 220.7135 Time: 0.956
+INFO:root:Iter 163/800000 Loss: 283.5268 Time: 0.958
+INFO:root:Iter 164/800000 Loss: 213.0721 Time: 0.956
+INFO:root:Iter 165/800000 Loss: 249.9601 Time: 0.958
+INFO:root:Iter 166/800000 Loss: 240.4860 Time: 0.967
+INFO:root:Iter 167/800000 Loss: 200.4752 Time: 0.964
+INFO:root:Iter 168/800000 Loss: 262.1876 Time: 0.957
+INFO:root:Iter 169/800000 Loss: 258.4879 Time: 0.956
+INFO:root:Iter 170/800000 Loss: 232.8964 Time: 0.956
+INFO:root:Iter 171/800000 Loss: 271.2501 Time: 0.956
+INFO:root:Iter 172/800000 Loss: 345.0021 Time: 0.956
+INFO:root:Iter 173/800000 Loss: 269.0385 Time: 0.958
+INFO:root:Iter 174/800000 Loss: 276.6068 Time: 0.963
+INFO:root:Iter 175/800000 Loss: 279.2077 Time: 0.960
+INFO:root:Iter 176/800000 Loss: 326.0872 Time: 0.955
+INFO:root:Iter 177/800000 Loss: 288.0704 Time: 0.954
+INFO:root:Iter 178/800000 Loss: 283.9351 Time: 0.958
+INFO:root:Iter 179/800000 Loss: 282.4849 Time: 0.963
+INFO:root:Iter 180/800000 Loss: 270.9179 Time: 0.955
+INFO:root:Iter 181/800000 Loss: 341.2421 Time: 0.957
+INFO:root:Iter 182/800000 Loss: 194.6760 Time: 0.957
+INFO:root:Iter 183/800000 Loss: 236.9684 Time: 0.955
+INFO:root:Iter 184/800000 Loss: 434.4874 Time: 0.956
+INFO:root:Iter 185/800000 Loss: 278.3040 Time: 0.961
+INFO:root:Iter 186/800000 Loss: 181.7308 Time: 0.957
