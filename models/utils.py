@@ -48,7 +48,7 @@ def get_model_fn(model, train=False):
         else:
             model.train()
             return model(x, labels)
-        
+
     return model_fn
 
 

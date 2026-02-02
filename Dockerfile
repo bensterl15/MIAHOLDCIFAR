@@ -33,8 +33,8 @@ COPY . .
 
 # Step 8: Run training directly (no start_with_tb.sh)
 CMD ["python3", "main.py", \
-     "-cc", "configs/default_cifar.txt", \
-     "-sc", "configs/specific_cifar.txt", \
+     "-cc", "configs/default_cifar10.txt", \
+     "-sc", "configs/specific_cifar10.txt", \
      "--root", ".", \
      "--mode", "train", \
      "--workdir", "work_dir/cifar", \

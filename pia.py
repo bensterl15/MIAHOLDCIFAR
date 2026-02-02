@@ -43,9 +43,9 @@ def collect_all_images(data_loader, device=None):
 def run_proximal_inference_attack(config, model, sde):
     # 1 channel because MNIST is grayscale:
     n_channels = 3
-    config.n_discrete_steps = 10
+    n_discrete_steps = 10
     hold_T = 5.0
-    delta_t = hold_T / config.n_discrete_steps
+    delta_t = hold_T / n_discrete_steps
     N_ROC_points = 100
 
     # Load the training and validation loaders:
@@ -73,10 +73,10 @@ def run_proximal_inference_attack(config, model, sde):
     labels = labels[:end_pt]
     ###
     data_size = x_0.shape[0]
-    R_tp = torch.zeros(data_size, config.n_discrete_steps, device=config.device)
+    R_tp = torch.zeros(data_size, n_discrete_steps, device=config.device)
 
     t = torch.zeros(data_size, device=config.device).double() + 0.01
-    for t_ind in tqdm(range(config.n_discrete_steps)):
+    for t_ind in tqdm(range(n_discrete_steps)):
         x_t = sde.perturb_data(x_0, t, B_ATTACKER=True, model=model)
         x_t = x_t.detach()
         #print(f'x_t stats: min={x_t.min()}, max={x_t.max()}, mean={x_t.mean()}, std={x_t.std()}', flush=True)

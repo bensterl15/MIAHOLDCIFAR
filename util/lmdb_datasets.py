@@ -26,8 +26,6 @@ def num_samples(dataset, train):
         raise NotImplementedError('dataset %s is unknown' % dataset)
 
 
-# lmdb_datasets.py
-
 class LMDBDataset(data.Dataset):
     def __init__(self, root, name='', train=True, transform=None, is_encoded=False):
         self.train = train
@@ -37,32 +35,22 @@ class LMDBDataset(data.Dataset):
             lmdb_path = os.path.join(root, 'train.lmdb')
         else:
             lmdb_path = os.path.join(root, 'validation.lmdb')
-
-        self.data_lmdb = lmdb.open(
-            lmdb_path, readonly=True, max_readers=1,
-            lock=False, readahead=False, meminit=False
-        )
+        self.data_lmdb = lmdb.open(lmdb_path, readonly=True, max_readers=1,
+                                   lock=False, readahead=False, meminit=False)
         self.is_encoded = is_encoded
-
-        # Build list of keys once, in LMDB's sorted order
-        with self.data_lmdb.begin(write=False) as txn:
-            self.keys = [k for k, _ in txn.cursor()]
-        print(f"{self.name} {'train' if self.train else 'val'}: {len(self.keys)} LMDB keys")
 
     def __getitem__(self, index):
         target = [0]
         with self.data_lmdb.begin(write=False, buffers=True) as txn:
-            key = self.keys[index]
-            data = txn.get(key)
-            if data is None:
-                raise IndexError(f"Missing key {key!r} at index {index}")
-
+            data = txn.get(str(index).encode())
             if self.is_encoded:
-                img = Image.open(io.BytesIO(data)).convert('RGB')
+                img = Image.open(io.BytesIO(data))
+                img = img.convert('RGB')
             else:
-                img = np.frombuffer(data, dtype=np.uint8)
+                img = np.asarray(data, dtype=np.uint8)
+                # assume data is RGB
                 size = int(np.sqrt(len(img) / 3))
-                img = img.reshape(size, size, 3)
+                img = np.reshape(img, (size, size, 3))
                 img = Image.fromarray(img, mode='RGB')
 
         if self.transform is not None:
@@ -71,4 +59,4 @@ class LMDBDataset(data.Dataset):
         return img, target
 
     def __len__(self):
-        return len(self.keys)
+        return num_samples(self.name, self.train)

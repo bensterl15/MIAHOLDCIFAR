@@ -11,8 +11,11 @@ import torch
 import torch.nn as nn
 import numpy as np
 from util.utils import add_dimensions
-
 from tqdm import tqdm
+
+sqrt2 = np.sqrt(2)
+sqrt3 = np.sqrt(3)
+sqrt6 = np.sqrt(6)
 
 hold_T = 5.0
 
@@ -21,7 +24,7 @@ class HOLD(nn.Module):
         
         n = config.model_order
         # nOLD specific parameters:
-        self.lambdastar = -math.sqrt(2*n - 3) if n > 1 else -1.0
+        self.lambdastar = -math.sqrt(2*n - 3)
         
         # Initialize diagonal of Sigma_0
         Sigma_0_diag = torch.full((n,), alpha*L_inv, device=device).double()
@@ -34,11 +37,8 @@ class HOLD(nn.Module):
         xi = -n * self.lambdastar
         
         # Construct F
-        if n > 1:
-            F_matrix = torch.diag(self.gammas, 1) - torch.diag(self.gammas, -1)
-            F_matrix[-1, -1] = -xi
-        else:
-            F_matrix = torch.tensor([[-xi]], device=device)
+        F_matrix = torch.diag(self.gammas, 1) - torch.diag(self.gammas, -1)
+        F_matrix[-1, -1] = -xi
         self.F_matrix = torch.kron(F_matrix, torch.eye(3, device=device)).double()
 
         # precompute taylor expansion coefficient matrices of expFt

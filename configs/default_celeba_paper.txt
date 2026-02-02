@@ -27,6 +27,6 @@ autocast_train       = true
 autocast_eval        = true
 
 # Sampling
-sampling_method      = em
+sampling_method      = ode
 sampling_eps         = 1e-3
 denoising            = true

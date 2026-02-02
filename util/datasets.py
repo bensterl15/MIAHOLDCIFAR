@@ -37,42 +37,14 @@ def get_loaders(args):
 
 
 def get_loaders_eval(dataset, root, distributed, training_batch_size, testing_batch_size, augment=True, drop_last_train=True, shuffle_train=True):
-    if dataset == 'mnist':
-        num_classes = 10
-        train_transform, valid_transform = _data_transforms_mnist()
-        train_transform = train_transform if augment else valid_transform
-        train_data = dset.MNIST(
-            root=root, train=True, download=True, transform=train_transform)
-        valid_data = dset.MNIST(
-            root=root, train=False, download=True, transform=valid_transform)
-    elif dataset == 'cifar10':
+    if dataset == 'cifar10':
         num_classes = 10
         train_transform, valid_transform = _data_transforms_cifar10()
         train_transform = train_transform if augment else valid_transform
-        full_train = dset.CIFAR10(
+        train_data = dset.CIFAR10(
             root=root, train=True, download=True, transform=train_transform)
-        full_valid = dset.CIFAR10(
+        valid_data = dset.CIFAR10(
             root=root, train=False, download=True, transform=valid_transform)
-
-        # ----- NEW: create distribution shift subsets -----
-        # CIFAR-10 class indices: 0=airplane, 5=dog
-        train_targets = torch.tensor(full_train.targets)
-        valid_targets = torch.tensor(full_valid.targets)
-
-        plane_train_idx = (train_targets == 0).nonzero(as_tuple=True)[0]
-        dog_valid_idx   = (valid_targets == 5).nonzero(as_tuple=True)[0]
-
-        # Limit sizes if you want small-N experiments
-        #N_train = min(1000, plane_train_idx.numel())
-        #N_valid = min(1000, dog_valid_idx.numel())
-
-        plane_train_idx = plane_train_idx#[:N_train]
-        dog_valid_idx   = dog_valid_idx#[:N_valid]
-
-        train_data = torch.utils.data.Subset(full_train, plane_train_idx)   # members: planes
-        valid_data = torch.utils.data.Subset(full_valid, dog_valid_idx)     # non-members: dogs
-
-
     elif dataset.startswith('celeba'):
         if dataset == 'celeba_64':
             resize = 64
@@ -81,11 +53,9 @@ def get_loaders_eval(dataset, root, distributed, training_batch_size, testing_ba
                 resize)
             train_transform = train_transform if augment else valid_transform
             train_data = LMDBDataset(
-                root=root, name='celeba64', train=True, transform=train_transform, is_encoded=False)
-            train_data = torch.utils.data.Subset(train_data, list(range(100))) 
+                root=root, name='celeba64', train=True, transform=train_transform, is_encoded=True)
             valid_data = LMDBDataset(
-                root=root, name='celeba64', train=False, transform=valid_transform, is_encoded=False)
-            valid_data = torch.utils.data.Subset(valid_data, list(range(100)))
+                root=root, name='celeba64', train=False, transform=valid_transform, is_encoded=True)
         elif dataset in {'celeba_256'}:
             num_classes = 1
             resize = int(dataset.split('_')[1])
@@ -207,36 +177,6 @@ def random_split_dataset(dataset, lengths, seed=0):
     return [torch.utils.data.Subset(dataset, indices[offset - length:offset])
             for offset, length in zip(_accumulate(lengths), lengths)]
 
-'''
-def _data_transforms_mnist():
-    """Get data transforms for mnist."""
-
-    train_transform = transforms.Compose([
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor()
-    ])
-
-    valid_transform = transforms.Compose([
-        transforms.ToTensor()
-    ])
-
-    return train_transform, valid_transform
-'''
-
-def _data_transforms_mnist():
-    train_transform = transforms.Compose([
-        transforms.Resize(32),  # Pad/resize 28→32 to match model
-        #transforms.RandomCrop(32, padding=4),
-        #transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize([0.5], [0.5])
-    ])
-    valid_transform = transforms.Compose([
-        transforms.Resize(32),
-        transforms.ToTensor(), 
-        transforms.Normalize([0.5], [0.5])
-    ])
-    return train_transform, valid_transform
 
 def _data_transforms_cifar10():
     """Get data transforms for cifar10."""
@@ -272,7 +212,7 @@ def _data_transforms_celeba64(size):
     train_transform = transforms.Compose([
         CropCelebA64(),
         transforms.Resize(size),
-        #transforms.RandomHorizontalFlip(),
+        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
     ])
 
