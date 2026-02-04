@@ -94,7 +94,7 @@ def get_ode_sampler(config, sde, sampling_shape, eps):
                 nfe_counter += 1
 
             if sde.is_hold:
-                x, v, s = torch.chunk(u, 3, dim=1)
+                x, v, s = torch.chunk(u, 1, dim=1)
                 return x, v, s, nfe_counter
             else:
                 if sde.is_augmented:

@@ -31,6 +31,8 @@ import wandb
 import gc
 from tqdm import tqdm
 
+from util.utils import add_dimensions
+
 ## Convenience function to collect all the images from each data loader:
 def collect_all_images(data_loader, device=None):
     all_images = []
@@ -44,7 +46,7 @@ def run_proximal_inference_attack(config, model, sde):
     # 1 channel because MNIST is grayscale:
     n_channels = 3
     n_discrete_steps = 10
-    hold_T = 5.0
+    hold_T = 1.0
     delta_t = hold_T / n_discrete_steps
     N_ROC_points = 100
 
@@ -54,9 +56,9 @@ def run_proximal_inference_attack(config, model, sde):
     x_train = collect_all_images(train_loader, device=config.device)
     x_val   = collect_all_images(val_loader, device=config.device)
 
-    # Only take first 1000 of each category:
-    x_train = x_train[:1000]
-    x_val = x_val[:1000]
+    # Only take first 100 of each category:
+    x_train = x_train[:100]
+    x_val = x_val[:100]
 
     # Optional: build labels for ROC
     labels = torch.cat([
@@ -68,10 +70,13 @@ def run_proximal_inference_attack(config, model, sde):
 
     x_0 = torch.cat([x_train, x_val], dim=0)
     end_pt = x_0.shape[0] # 2 * processing_batch_size#
-    ### TEMPORARY:
-    x_0 = x_0[:end_pt]
-    labels = labels[:end_pt]
-    ###
+
+    #### CHECKS:
+    print(x_0.shape)         # should be (200, C, H, W)
+    print(labels.shape)      # should be (200,)
+    print(labels[:5], labels[-5:])  # first all 1s, last all 0s
+    ####
+
     data_size = x_0.shape[0]
     R_tp = torch.zeros(data_size, n_discrete_steps, device=config.device)
 
@@ -88,49 +93,47 @@ def run_proximal_inference_attack(config, model, sde):
             t_batch = t[j:j+processing_batch_size].squeeze(-1)
             with torch.no_grad():
                 score_chunk = model(batch_chunk.float(), t_batch.float())
-                #print(f'score_chunk.shape = {score_chunk.shape}', flush=True)
+
             score_est_list.append( score_chunk )
             del score_chunk
         score_est = torch.cat(score_est_list, dim=0)
         score_est = score_est.detach()
-        print(f'score_est: {score_est.norm(dim=1).mean()}')
-        #print(f'score_est stats: min={score_est.min()}, max={score_est.max()}, mean={score_est.mean()}, std={score_est.std()}', flush=True)
-        #print(f'x_t stats: min={x_t.min()}, max={x_t.max()}, mean={x_t.mean()}, std={x_t.std()}', flush=True)
 
-        F = sde.F_matrix
-        print(f'F.shape={F.shape}', flush=True)
-        print(f'x_t.shape={x_t.shape}', flush=True)
-        R_tp_ = torch.einsum("ij,bjkl->bikl", F, x_t).cpu()
+        x_t = x_t.cpu()
         score_est = score_est.cpu()
-        R_tp_[:,((config.model_order-1)*n_channels):(config.model_order*n_channels)] = R_tp_[:,((config.model_order-1)*n_channels):(config.model_order*n_channels)] - sde.xi * sde.L_inv * score_est
-        R_tp_ = R_tp_[:,((config.model_order-1)*n_channels):(config.model_order*n_channels)]
-        R_tp[:, t_ind] = torch.norm(R_tp_.reshape(R_tp_.shape[0],-1), p=2, dim=1)
+        beta_t = sde.beta(t).cpu()          # (2000,)
+        beta_t = beta_t.view(-1, 1, 1)      # (2000,1,1), broadcasts over 32x32
+        beta_t = beta_t.double()
+
+        #norm_xt = torch.norm(x_t + score_est, p=2, dim=1)   # (2000, 32, 32)
+        #val = (beta_t * norm_xt).view(norm_xt.shape[0], -1).mean(dim=1)
+        #R_tp[:, t_ind] = val
+
+        norm_per_sample = torch.norm(x_t + score_est, p=2, dim=[1,2,3])  # (B,) per-sample norm
+        R_tp[:, t_ind] = beta_t.squeeze() * norm_per_sample
 
         # Call garbage collector to prevent OOM errors:
-        del x_t, score_est, R_tp_
+        del x_t, score_est, beta_t, norm_per_sample
         gc.collect()
         torch.cuda.empty_cache()
         # Incrementing t at the end ensures hold_T - t is never zero!!!
         t += delta_t
 
-    ## Sanity check:
-    #R_tp[50000:60000] = R_tp[50000:60000] + 1e3 
-    #R_tp = R_tp.mean(dim=1)
-
-    #plt.plot(R_tp[:,0])
-    #plt.savefig('R_tp.png')
-
     tau_min = R_tp.min()
     tau_max = R_tp.max()
     taus = torch.linspace(tau_min, tau_max, N_ROC_points)
 
-    print(R_tp, flush=True)
+    #print(R_tp, flush=True)
+    #### CHECKS:
+    print("members mean/std:", R_tp[labels==1].mean(), R_tp[labels==1].std())
+    print("non-memb mean/std:", R_tp[labels==0].mean(), R_tp[labels==0].std())
+    ####
 
     ROC_sizes = torch.zeros(N_ROC_points)
     ROC_powers = torch.zeros(N_ROC_points)
     for n_ROC in range(N_ROC_points):
         tau = taus[n_ROC]
-        b_vect = (R_tp < tau).float().mean(dim=1) > 0.5
+        b_vect = R_tp.mean(dim=1) < tau #(R_tp < tau).float().mean(dim=1) > 0.5
         b_vect_powers = b_vect[labels==1]
         b_vect_sizes = b_vect[labels==0]
         ROC_sizes[n_ROC] = b_vect_sizes.sum()/b_vect_sizes.shape[0]
@@ -138,31 +141,31 @@ def run_proximal_inference_attack(config, model, sde):
 
     # Approximate the Area under the curve with trapezoidal integration:
     AUC = np.trapz(ROC_powers, ROC_sizes)
-
+    wandb.log({"val/AUROC": AUC})
     print(f'AUC = {AUC}', flush=True)
 
-    #plt.rcParams['figure.figsize'] = [20, 5]
-    #plt.plot(ROC_sizes, ROC_powers)
-    #plt.plot(ROC_sizes, ROC_sizes, 'r--')
-    #plt.title(f'ROC AUC={AUC}')
+
+    '''
+    plt.rcParams['figure.figsize'] = [20, 5]
+    plt.plot(ROC_sizes, ROC_powers)
+    plt.plot(ROC_sizes, ROC_sizes, 'r--')
+    plt.title(f'ROC AUC={AUC}')
 
     # Save to a buffer and convert to PIL image for WandbLogger
-    #buf = BytesIO()
-    #plt.savefig(buf, format='png')
-    #buf.seek(0)
-    #image = Image.open(buf)
-    #wandb.log({"ROC": wandb.Image(image)})
-
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    image = Image.open(buf)
+    wandb.log({"ROC": wandb.Image(image)})
     # Log NumPy array directly from memory
-    #ROC_data = np.column_stack((ROC_sizes, ROC_powers))
-    #with tempfile.NamedTemporaryFile(suffix='.npy') as tmp:
-    #    np.save(tmp, ROC_data)
-    #    tmp.flush()
-    #    
-    #    artifact = wandb.Artifact(name="ROC_data", type='dataset')
-    #    artifact.add_file(tmp.name)
-    #    wandb.log_artifact(artifact)
+    ROC_data = np.column_stack((ROC_sizes, ROC_powers))
+    with tempfile.NamedTemporaryFile(suffix='.npy') as tmp:
+        np.save(tmp, ROC_data)
+        tmp.flush()
+        
+        artifact = wandb.Artifact(name="ROC_data", type='dataset')
+        artifact.add_file(tmp.name)
+        wandb.log_artifact(artifact)
+    plt.close()        
+    '''
 
-    wandb.log({"val/AUROC": AUC})
-
-    #plt.close()

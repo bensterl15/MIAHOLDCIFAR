@@ -26,11 +26,11 @@ numerical_eps       = 1e-9
 # SDE
 sde                 = hold
 beta_type           = linear
-beta0               = 4.0
-beta1               = 0.0
+beta0               = 0.01
+beta1               = 10.0
 m_inv               = 4.0
 gamma               = 0.04
-model_order         = 2
+model_order         = 1
 
 # Optimization
 optimizer           = Adam

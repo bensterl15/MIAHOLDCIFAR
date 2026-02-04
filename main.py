@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
     wandb.init(
         project="HOLD",
-        name="CIFAR10_eval",
+        name="cifar_eval",
     )
     
     p = configargparse.ArgParser()

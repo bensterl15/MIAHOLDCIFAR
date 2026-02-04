@@ -36,11 +36,14 @@ CMD ["python3", "main.py", \
      "-cc", "configs/default_cifar.txt", \
      "-sc", "configs/specific_cifar.txt", \
      "--root", ".", \
-     "--mode", "train", \
+     "--mode", "eval", \
+     "--eval_fid", \
      "--workdir", "work_dir/cifar", \
      "--n_gpus_per_node", "1", \
-     "--training_batch_size", "128", \
-     "--testing_batch_size", "128", \
-     "--sampling_batch_size", "128", \
-     "--eval_fid_samples", "5000", \
+     "--training_batch_size", "16", \
+     "--testing_batch_size", "16", \
+     "--sampling_batch_size", "16", \
+     "--ckpt_file", "checkpoint10000.pth", \
+     "--n_discrete_steps", "250", \
+     "--eval_folder", "eval", \
      "--master_port", "6026"]
