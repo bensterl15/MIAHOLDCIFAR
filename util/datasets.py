@@ -49,28 +49,28 @@ def get_loaders_eval(dataset, root, distributed, training_batch_size, testing_ba
         num_classes = 10
         train_transform, valid_transform = _data_transforms_cifar10()
         train_transform = train_transform if augment else valid_transform
-        full_train = dset.CIFAR10(
+        train_data = dset.CIFAR10(
             root=root, train=True, download=True, transform=train_transform)
-        full_valid = dset.CIFAR10(
+        valid_data = dset.CIFAR10(
             root=root, train=False, download=True, transform=valid_transform)
 
         # ----- NEW: create distribution shift subsets -----
         # CIFAR-10 class indices: 0=airplane, 5=dog
-        train_targets = torch.tensor(full_train.targets)
-        valid_targets = torch.tensor(full_valid.targets)
+        #train_targets = torch.tensor(full_train.targets)
+        #valid_targets = torch.tensor(full_valid.targets)
 
-        plane_train_idx = (train_targets == 0).nonzero(as_tuple=True)[0]
-        dog_valid_idx   = (valid_targets == 5).nonzero(as_tuple=True)[0]
+        #plane_train_idx = (train_targets == 0).nonzero(as_tuple=True)[0]
+        #dog_valid_idx   = (valid_targets == 5).nonzero(as_tuple=True)[0]
 
         # Limit sizes if you want small-N experiments
         #N_train = min(1000, plane_train_idx.numel())
         #N_valid = min(1000, dog_valid_idx.numel())
 
-        plane_train_idx = plane_train_idx#[:N_train]
-        dog_valid_idx   = dog_valid_idx#[:N_valid]
+        #plane_train_idx = plane_train_idx#[:N_train]
+        #dog_valid_idx   = dog_valid_idx#[:N_valid]
 
-        train_data = torch.utils.data.Subset(full_train, plane_train_idx)   # members: planes
-        valid_data = torch.utils.data.Subset(full_valid, dog_valid_idx)     # non-members: dogs
+        #train_data = torch.utils.data.Subset(full_train, plane_train_idx)   # members: planes
+        #valid_data = torch.utils.data.Subset(full_valid, dog_valid_idx)     # non-members: dogs
 
 
     elif dataset.startswith('celeba'):
