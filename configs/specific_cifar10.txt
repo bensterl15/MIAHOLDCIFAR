@@ -36,7 +36,7 @@ model_order         = 2
 optimizer           = Adam
 learning_rate       = 2e-4
 grad_clip           = 1.0
-dropout             = 0.1
+dropout             = 0.0
 weight_decay        = 0.0
 
 # Objective

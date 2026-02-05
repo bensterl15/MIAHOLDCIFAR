@@ -242,7 +242,7 @@ def _data_transforms_cifar10():
     """Get data transforms for cifar10."""
 
     train_transform = transforms.Compose([
-        transforms.RandomHorizontalFlip(),
+        #transforms.RandomHorizontalFlip(),
         transforms.ToTensor()
     ])
 

@@ -44,7 +44,7 @@ def run_proximal_inference_attack(config, model, sde):
     # 1 channel because MNIST is grayscale:
     n_channels = 3
     n_discrete_steps = 10
-    hold_T = 5.0
+    hold_T = 1.0
     delta_t = hold_T / n_discrete_steps
     N_ROC_points = 100
 
@@ -54,9 +54,9 @@ def run_proximal_inference_attack(config, model, sde):
     x_train = collect_all_images(train_loader, device=config.device)
     x_val   = collect_all_images(val_loader, device=config.device)
 
-    # Only take first 1000 of each category:
-    x_train = x_train[:1000]
-    x_val = x_val[:1000]
+    # Only take first 100 of each category:
+    x_train = x_train[:100]
+    x_val = x_val[:100]
 
     # Optional: build labels for ROC
     labels = torch.cat([
