@@ -1,0 +1,45 @@
+# Byte-compiled / optimized Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ML experiment outputs (your large dirs)
+data/
+wandb/
+work_dir/
+
+# PyTorch checkpoints, samples, logs, tensorboard
+**/checkpoints/
+**/samples/
+**/tensorboard/
+**/fid/
+**/likelihood/
+
+# Python environments
+.venv/
+env/
+venv/
+
+# IDE / editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/

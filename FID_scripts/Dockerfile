@@ -43,7 +43,7 @@ CMD ["python3", "main.py", \
      "--training_batch_size", "16", \
      "--testing_batch_size", "16", \
      "--sampling_batch_size", "16", \
-     "--ckpt_file", "checkpoint10000.pth", \
+     "--ckpt_file", "checkpoint39000.pth", \
      "--n_discrete_steps", "250", \
      "--eval_folder", "eval", \
      "--master_port", "6026"]
