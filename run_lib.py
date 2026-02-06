@@ -239,34 +239,34 @@ def train(config, workdir):
                         logging.info('sampling -- round: %d' % r)
                     dist.barrier()
 
-                    x, _, _ = sampling_fn(score_model)
+                    u = sampling_fn(score_model)
+                    x = u.chunk(config.model_order, dim=1)[0]
                     x = inverse_scaler(x)
 
-                    samples = np.clip(x.permute(0, 2, 3, 1).cpu(
-                    ).numpy() * 255., 0, 255).astype(np.uint8)
+                    samples = np.clip(x.permute(0, 2, 3, 1).cpu().numpy()
+                                    * 255., 0, 255).astype(np.uint8)
                     samples = samples.reshape(
                         (-1, config.image_size, config.image_size, config.image_channels))
 
                     latents = evaluation.run_inception_distributed(
                         samples, inception_model, inceptionv3=inceptionv3)
-                    np.save(os.path.join(fid_dir, 'statistics_%d_rank_%d_pool.npy' % (
-                        r, global_rank)), latents['pool_3'])
+                    np.save(os.path.join(fid_dir, 'statistics_%d_rank_%d_pool.npy' %
+                            (r, global_rank)), latents['pool_3'])
                     #np.save(os.path.join(fid_dir, 'nfes_%d_%d.npy' %
                     #        (r, global_rank)), np.array([nfe]))
                     np.save(os.path.join(fid_dir, 'samples_%d_%d.npy' %
                             (r, global_rank)), samples)
 
                 dist.barrier()
-                ema.restore(score_model.parameters())
 
                 all_pool = []
                 for pool_file in glob.glob(os.path.join(fid_dir, 'statistics_*_pool.npy')):
                     stat = np.load(pool_file)
                     all_pool.append(stat)
-                all_pool = np.concatenate(all_pool, axis=0)[
-                    :config.eval_fid_samples]
+                all_pool = np.concatenate(all_pool, axis=0)[:config.eval_fid_samples]
                 if all_pool.shape[0] != config.eval_fid_samples:
                     raise ValueError('Not enough FID samples.')
+
                 '''
                 all_nfes = []
                 for nfe_file in glob.glob(os.path.join(fid_dir, 'nfes_*.npy')):
@@ -274,7 +274,6 @@ def train(config, workdir):
                     all_nfes.append(nfe)
                 all_nfes = np.concatenate(all_nfes, axis=0)
                 '''
-                
                 if global_rank == 0:
                     data_stats = evaluation.load_dataset_stats(config)
                     data_pools = data_stats['pool_3']
@@ -282,13 +281,17 @@ def train(config, workdir):
                     data_pools_sigma = np.cov(data_pools, rowvar=False)
                     all_pool_mean = np.mean(all_pool, axis=0)
                     all_pool_sigma = np.cov(all_pool, rowvar=False)
-                    
+
+                    #print(all_pool)
+                    #print(all_pool.shape, flush=True)
+
                     fid = calculate_frechet_distance(
                         data_pools_mean, data_pools_sigma, all_pool_mean, all_pool_sigma)
                     logging.info('FID: %.6f' % fid)
+                    wandb.log({"val/FID": fid, "step": step})
                     result_arr = np.array([fid])
                     np.save(os.path.join(fid_dir, 'report.npy'), result_arr)
-                    wandb.log({"val/FID": fid, "step": step})
+
                     #mean_nfe = np.mean(all_nfes)
                     #logging.info('Mean NFE: %.3f' % mean_nfe)
 

@@ -42,5 +42,5 @@ CMD ["python3", "main.py", \
      "--training_batch_size", "8", \
      "--testing_batch_size", "8", \
      "--sampling_batch_size", "32", \
-     "--eval_fid_samples", "5000", \
+     "--eval_fid_samples", "128", \
      "--master_port", "6026"]
