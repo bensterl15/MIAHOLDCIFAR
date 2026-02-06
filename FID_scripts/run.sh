@@ -3,5 +3,5 @@ docker run -d \
            --name noldfid \
            -p 6007:6007 \
            -v $(pwd):/app \
-           -v $(pwd)/output_data:/app/work_dir/celeba64 \
+           -v $(pwd)/output_data:/app/work_dir/cifar \
            noldfid:latest

@@ -39,8 +39,8 @@ CMD ["python3", "main.py", \
      "--mode", "train", \
      "--workdir", "work_dir/cifar", \
      "--n_gpus_per_node", "1", \
-     "--training_batch_size", "128", \
-     "--testing_batch_size", "128", \
-     "--sampling_batch_size", "128", \
+     "--training_batch_size", "8", \
+     "--testing_batch_size", "8", \
+     "--sampling_batch_size", "32", \
      "--eval_fid_samples", "5000", \
      "--master_port", "6026"]
