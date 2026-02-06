@@ -55,8 +55,8 @@ def run_proximal_inference_attack(config, model, sde):
     x_val   = collect_all_images(val_loader, device=config.device)
 
     # Only take first 100 of each category:
-    x_train = x_train[:100]
-    x_val = x_val[:100]
+    #x_train = x_train[:100]
+    #x_val = x_val[:100]
 
     # Optional: build labels for ROC
     labels = torch.cat([

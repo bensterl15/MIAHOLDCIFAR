@@ -49,10 +49,19 @@ def get_loaders_eval(dataset, root, distributed, training_batch_size, testing_ba
         num_classes = 10
         train_transform, valid_transform = _data_transforms_cifar10()
         train_transform = train_transform if augment else valid_transform
-        train_data = dset.CIFAR10(
+        full_train = dset.CIFAR10(
             root=root, train=True, download=True, transform=train_transform)
-        valid_data = dset.CIFAR10(
+        full_valid = dset.CIFAR10(
             root=root, train=False, download=True, transform=valid_transform)
+
+        N_train = 128
+        N_valid = 128
+
+        train_indices = torch.arange(N_train)
+        valid_indices = torch.arange(N_valid)
+
+        train_data = torch.utils.data.Subset(full_train, train_indices)
+        valid_data = torch.utils.data.Subset(full_valid, valid_indices)
 
         # ----- NEW: create distribution shift subsets -----
         # CIFAR-10 class indices: 0=airplane, 5=dog
